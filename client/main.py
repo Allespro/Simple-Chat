@@ -1,8 +1,8 @@
 import requests
-import threading
+#import threading
 
 username = ""
-server_host='http://127.0.0.1:8000'
+server_host='https://20765ef8.ngrok.io'#'http://127.0.0.1:8000'
 
 def readmess():
 	payload = {'mess_to': username}
