@@ -2,27 +2,31 @@ import requests
 #import threading
 
 username = ""
+room = ""
 server_host='http://127.0.0.1:8000'
 
 def readmess():
-	payload = {'mess_to': username}
+	global room
+	payload = {'room': room, 'action': 'read'}
 	r = requests.get(server_host, params=payload)
 	if ("DOCTYPE HTML PUBLIC" in r.text):
 		print("No messages")
 	else:
-		print(r.text)
+		output = r.text
+		print(output)
 
 def sendmess():
 	text = input("Input message: ")
-	chatname = input("Send to: ")
-	payload = {'message': text, 'to_user': chatname, 'from_user': username} 
+	payload = {'message': text, 'room': room, 'from_user': username, 'action': 'send'} 
 	r = requests.get(server_host, params=payload)
 	print(r.url)
 
 def user_login():
 	global username
+	global room
 	username = input("Input your name: ")
-	payload = {'online': username} 
+	room = input("Input room name: ")
+	payload = {'online': username, 'room': room} 
 	r = requests.get(server_host, params=payload) 
 
 def user_loop():
@@ -39,7 +43,8 @@ def user_loop():
 
 
 def chat_exit():
-	payload = {'offline': username}
+	global room
+	payload = {'offline': username, 'room': room}
 	r = requests.get(server_host, params=payload)
 	exit("Good buy!")
 
